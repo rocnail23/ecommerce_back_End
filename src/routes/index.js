@@ -6,7 +6,7 @@ const productRouter = require("./product.router")
 const cartRouter = require("./cart.router")
 const purcharseRouter = require("./purcharse.router")
 const productImgRouter = require("./productimg.router")
-// colocar las rutas aquí
+const authToken = require("../middleware/authToken")
 
 router.use("/users",userRouter)
 
@@ -18,7 +18,7 @@ router.use("/cart", cartRouter)
 
 router.use("/purcharses",purcharseRouter)
 
-router.use("/product_images", productImgRouter)
+router.use("/product_images",authToken,productImgRouter)
 
 
 

@@ -22,20 +22,23 @@ beforeAll(async() => {
 
 test("POST ->  'url' should return status 201 ", async() => {
 
-    const img = path.join(__dirname, "..", "public", "yo3.0.jpg")
-    console.log(img)
+
+    const imgBody = {
+
+        url: "http://localhost:8080/cocina.jpg",
+        filename: "cocina.jpg"
+
+    }
 
     const res  = await supertest(app)
     .post(url)
-    .attach("image",img)
-
-
+    .send(imgBody)
+    .set("Authorization", `Bearer ${token}`)
    
 
     ProductImgId = res.body.id
-
     expect(res.status).toBe(201)
-    expect(res.body.filename).toBe("image/yo3.0")
+    expect(res.body.filename).toBe("cocina.jpg")
 
 })
 
@@ -43,6 +46,9 @@ test("GET -> 'url' should return status 200, res.body.length = 1", async() => {
 
      const res = await supertest(app)
      .get(url)
+     .set("Authorization", `Bearer ${token}`)
+
+
      console.log(ProductImgId)
      expect(res.status).toBe(200)
      expect(res.body[0].filename).toBeDefined()
@@ -57,6 +63,7 @@ test("DELETE -> 'url/:id' should return status 204", async() => {
 
     const res = await supertest(app)
     .delete(urldelete)
+    .set("Authorization", `Bearer ${token}`)
     expect(res.status).toBe(204)
 
 })
